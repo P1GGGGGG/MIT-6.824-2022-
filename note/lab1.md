@@ -1,0 +1,1 @@
+![lab1_all_pass](C:\Users\asus\Documents\GitHub\MIT-6.824-2022-\notefigure\lab1_all_pass.png)
