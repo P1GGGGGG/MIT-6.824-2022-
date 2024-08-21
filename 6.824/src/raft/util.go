@@ -1,13 +1,32 @@
 package raft
 
-import "log"
+import (
+	"fmt"
+	"log"
+	"os"
+	"strconv"
+	"time"
+)
 
-// Debugging
 const Debug = false
 
-func DPrintf(format string, a ...interface{}) (n int, err error) {
-	if Debug {
-		log.Printf(format, a...)
+var file *os.File
+
+func init() {
+	f, err := os.Create("./tmp/log-" + strconv.Itoa(int(time.Now().Unix())) + ".txt")
+	if err != nil {
+		DPrintf("log create file fail!")
 	}
-	return
+	file = f
+}
+
+func DPrintf(format string, value ...interface{}) {
+	now := time.Now()
+	info := fmt.Sprintf("%v-%v-%v %v:%v:%v:  ", now.Year(), int(now.Month()), now.Day(), now.Hour(), now.Minute(), now.Second()) + fmt.Sprintf(format+"\n", value...)
+
+	if Debug {
+		log.Printf(info)
+	} else {
+		file.WriteString(info)
+	}
 }
